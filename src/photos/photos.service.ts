@@ -1,8 +1,7 @@
-import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
-import { map, Observable } from 'rxjs';
 
 import { ConfigService } from 'src/config/config.service';
+import { FetcherService } from 'src/fetcher/fetcher.service';
 
 import { PhotoModel } from 'src/photos/photo-model';
 
@@ -10,24 +9,22 @@ import { PhotoModel } from 'src/photos/photo-model';
 export class PhotosService {
   constructor(
     private readonly configService: ConfigService,
-    private readonly httpService: HttpService,
+    private readonly fetcherService: FetcherService,
   ) {}
 
-  public findAll(): Observable<PhotoModel[]> {
-    return this.httpService
-      .get<PhotoModel[]>(this.configService.photos)
-      .pipe(map((res) => res.data));
+  public async findAll() {
+    return this.fetcherService.get<PhotoModel[]>(this.configService.photos);
   }
 
-  public findById(id: number): Observable<PhotoModel> {
-    return this.httpService
-      .get<PhotoModel>(this.configService.getPhotoById(id))
-      .pipe(map((res) => res.data));
+  public async findById(id: number) {
+    return this.fetcherService.get<PhotoModel>(
+      this.configService.getPhotoById(id),
+    );
   }
 
-  public findByAlbumId(albumId: number): Observable<PhotoModel[]> {
-    return this.httpService
-      .get<PhotoModel[]>(this.configService.getPhotosByAlbumId(albumId))
-      .pipe(map((res) => res.data));
+  public async findByAlbumId(albumId: number){
+    return this.fetcherService.get<PhotoModel[]>(
+      this.configService.getPhotosByAlbumId(albumId),
+    );
   }
 }

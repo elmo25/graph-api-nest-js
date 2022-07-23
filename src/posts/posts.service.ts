@@ -1,9 +1,9 @@
-import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 
 import { map, Observable } from 'rxjs';
 
 import { ConfigService } from 'src/config/config.service';
+import { FetcherService } from 'src/fetcher/fetcher.service';
 import { PostModel } from 'src/posts/post-model';
 import {
   CreatePostInput,
@@ -15,54 +15,50 @@ import {
 @Injectable()
 export class PostsService {
   constructor(
-    private readonly httpService: HttpService,
+    private readonly fetcherService: FetcherService,
     private readonly configService: ConfigService,
   ) {}
 
-  public findAll(): Observable<PostModel[]> {
-    return this.httpService
-      .get<PostModel[]>(this.configService.posts)
-      .pipe(map((res) => res.data));
+  public async findAll() {
+    return this.fetcherService.get<PostModel[]>(this.configService.posts);
   }
 
-  public findById(id: number): Observable<PostModel> {
-    return this.httpService
-      .get<PostModel>(this.configService.getPostById(id))
-      .pipe(map((res) => res.data));
+  public async findById(id: number) {
+    return this.fetcherService.get<PostModel>(
+      this.configService.getPostById(id),
+    );
   }
 
-  public findByUserId(userId: number): Observable<PostModel[]> {
-    return this.httpService
-      .get<PostModel[]>(this.configService.getPostsByUserId(userId))
-      .pipe(map((res) => res.data));
+  public async findByUserId(userId: number) {
+    return this.fetcherService.get<PostModel[]>(
+      this.configService.getPostsByUserId(userId),
+    );
   }
 
-  public create(postData: CreatePostInput): Observable<PostModel> {
-    return this.httpService
-      .post<PostModel>(this.configService.posts, postData)
-      .pipe(map((res) => res.data));
+  public async create(postData: CreatePostInput) {
+    return this.fetcherService.post<PostModel, CreatePostInput>(
+      this.configService.posts,
+      postData,
+    );
   }
 
-  public update(postData: UpdatePostInput): Observable<PostModel> {
-    return this.httpService
-      .put<PostModel>(this.configService.getPostById(postData.id), postData)
-      .pipe(map((res) => res.data));
+  public async update(postData: UpdatePostInput) {
+    return this.fetcherService.put<PostModel, UpdatePostInput>(
+      this.configService.getPostById(postData.id),
+      postData,
+    );
   }
 
-  public delete(postData: DeletePostInput): Observable<string> {
-    return this.httpService
-      .delete<Record<string, unknown>>(
-        this.configService.getPostById(postData.id),
-      )
+  public async delete(postData: DeletePostInput) {
+    return this.fetcherService
+      .delete(this.configService.getPostById(postData.id))
       .pipe(map(() => `Post with id: ${postData.id} was deleted`));
   }
 
-  public patch(patchPostData: PatchPostInput): Observable<PostModel> {
-    return this.httpService
-      .patch<PostModel>(
-        this.configService.getPostById(patchPostData.id),
-        patchPostData,
-      )
-      .pipe(map((res) => res.data));
+  public async patch(patchPostData: PatchPostInput) {
+    return this.fetcherService.patch<PostModel, PatchPostInput>(
+      this.configService.getPostById(patchPostData.id),
+      patchPostData,
+    );
   }
 }

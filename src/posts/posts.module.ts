@@ -1,5 +1,6 @@
-import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
+
+import { FetcherModule } from 'src/fetcher/fetcher.module';
 
 import { CommentsService } from 'src/comments/comments.service';
 
@@ -11,7 +12,7 @@ import { PostsService } from 'src/posts/posts.service';
 import { PostsResolver } from 'src/posts/posts.resolver';
 
 @Module({
-  imports: [HttpModule],
+  imports: [FetcherModule],
   providers: [
     PostsService,
     PostsResolver,

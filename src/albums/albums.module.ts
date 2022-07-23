@@ -1,5 +1,6 @@
-import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
+
+import { FetcherModule } from 'src/fetcher/fetcher.module';
 
 import { ConfigService } from 'src/config/config.service';
 
@@ -9,7 +10,7 @@ import { AlbumsResolver } from 'src/albums/albums.resolver';
 import { PhotosService } from 'src/photos/photos.service';
 
 @Module({
-  imports: [HttpModule],
+  imports: [FetcherModule],
   providers: [AlbumsService, AlbumsResolver, ConfigService, PhotosService],
 })
 export class AlbumsModule {}

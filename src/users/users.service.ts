@@ -1,27 +1,23 @@
 import { Injectable } from '@nestjs/common';
-import { HttpService } from '@nestjs/axios';
-
-import { Observable, map } from 'rxjs';
 
 import { ConfigService } from 'src/config/config.service';
+import { FetcherService } from 'src/fetcher/fetcher.service';
 import { UserModel } from 'src/users/user.model';
 
 @Injectable()
 export class UsersService {
   constructor(
-    private readonly httpService: HttpService,
+    private readonly fetcherService: FetcherService,
     private readonly configService: ConfigService,
   ) {}
 
-  public findAll(): Observable<UserModel[]> {
-    return this.httpService
-      .get<UserModel[]>(this.configService.users)
-      .pipe(map((res) => res.data));
+  public async findAll() {
+    return this.fetcherService.get<UserModel[]>(this.configService.users);
   }
 
-  public findById(id: number): Observable<UserModel> {
-    return this.httpService
-      .get<UserModel>(this.configService.getUserById(id))
-      .pipe(map((res) => res.data));
+  public async findById(id: number) {
+    return this.fetcherService.get<UserModel>(
+      this.configService.getUserById(id),
+    );
   }
 }
