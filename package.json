@@ -77,9 +77,7 @@
     "testEnvironment": "node"
   },
   "lint-staged": {
-    "linters": {
-      "src/**/*.{js,jsx,ts,tsx}": "eslint"
-    }
+    "*.ts": ["eslint", "prettier --write"]
   },
   "husky": {
     "hooks": {
