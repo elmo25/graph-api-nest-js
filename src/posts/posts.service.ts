@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 
-import { map, Observable } from 'rxjs';
+import { map } from 'rxjs';
 
 import { ConfigService } from 'src/config/config.service';
 import { FetcherService } from 'src/fetcher/fetcher.service';
