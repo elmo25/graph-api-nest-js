@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { Observable } from 'rxjs';
 
 import { AlbumModel } from 'src/albums/album-model';
 import { ConfigService } from 'src/config/config.service';
