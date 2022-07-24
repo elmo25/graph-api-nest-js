@@ -22,7 +22,7 @@ export class PhotosService {
     );
   }
 
-  public async findByAlbumId(albumId: number){
+  public async findByAlbumId(albumId: number) {
     return this.fetcherService.get<PhotoModel[]>(
       this.configService.getPhotosByAlbumId(albumId),
     );
