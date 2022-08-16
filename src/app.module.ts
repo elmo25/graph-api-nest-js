@@ -6,8 +6,8 @@ import { ConfigModule } from 'src/config/config.module';
 import { UsersModule } from 'src/users/users.module';
 import { PostsModule } from 'src/posts/posts.module';
 import { CommentsModule } from 'src/comments/comments.module';
-import { AlbumsModule } from './albums/albums.module';
-import { PhotosModule } from './photos/photos.module';
+import { AlbumsModule } from 'src/albums/albums.module';
+import { PhotosModule } from 'src/photos/photos.module';
 
 @Module({
   imports: [

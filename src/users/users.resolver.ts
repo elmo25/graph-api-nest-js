@@ -24,22 +24,22 @@ export class UsersResolver {
   ) {}
 
   @Query(() => [UserModel], { name: 'users' })
-  public async getUsers() {
+  public getUsers() {
     return this.usersService.findAll();
   }
 
   @Query(() => UserModel, { name: 'user' })
-  public async getUser(@Args('id', { type: () => ID }) id: number) {
+  public getUser(@Args('id', { type: () => ID }) id: number) {
     return this.usersService.findById(id);
   }
 
   @ResolveField(() => [PostModel], { name: 'posts' })
-  public async getUserPosts(@Parent() user: UserModel) {
+  public getUserPosts(@Parent() user: UserModel) {
     return this.postsService.findByUserId(user.id);
   }
 
   @ResolveField(() => [AlbumModel], { name: 'albums' })
-  public async getUserAlbums(@Parent() user: UserModel) {
+  public getUserAlbums(@Parent() user: UserModel) {
     return this.albumsService.findByUserId(user.id);
   }
 }

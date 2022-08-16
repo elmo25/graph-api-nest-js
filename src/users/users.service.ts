@@ -11,11 +11,11 @@ export class UsersService {
     private readonly configService: ConfigService,
   ) {}
 
-  public async findAll() {
+  public findAll() {
     return this.fetcherService.get<UserModel[]>(this.configService.users);
   }
 
-  public async findById(id: number) {
+  public findById(id: number) {
     return this.fetcherService.get<UserModel>(
       this.configService.getUserById(id),
     );

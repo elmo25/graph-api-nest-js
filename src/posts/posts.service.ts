@@ -19,43 +19,43 @@ export class PostsService {
     private readonly configService: ConfigService,
   ) {}
 
-  public async findAll() {
+  public findAll() {
     return this.fetcherService.get<PostModel[]>(this.configService.posts);
   }
 
-  public async findById(id: number) {
+  public findById(id: number) {
     return this.fetcherService.get<PostModel>(
       this.configService.getPostById(id),
     );
   }
 
-  public async findByUserId(userId: number) {
+  public findByUserId(userId: number) {
     return this.fetcherService.get<PostModel[]>(
       this.configService.getPostsByUserId(userId),
     );
   }
 
-  public async create(postData: CreatePostInput) {
+  public create(postData: CreatePostInput) {
     return this.fetcherService.post<PostModel, CreatePostInput>(
       this.configService.posts,
       postData,
     );
   }
 
-  public async update(postData: UpdatePostInput) {
+  public update(postData: UpdatePostInput) {
     return this.fetcherService.put<PostModel, UpdatePostInput>(
       this.configService.getPostById(postData.id),
       postData,
     );
   }
 
-  public async delete(postData: DeletePostInput) {
+  public delete(postData: DeletePostInput) {
     return this.fetcherService
       .delete(this.configService.getPostById(postData.id))
       .pipe(map(() => `Post with id: ${postData.id} was deleted`));
   }
 
-  public async patch(patchPostData: PatchPostInput) {
+  public patch(patchPostData: PatchPostInput) {
     return this.fetcherService.patch<PostModel, PatchPostInput>(
       this.configService.getPostById(patchPostData.id),
       patchPostData,

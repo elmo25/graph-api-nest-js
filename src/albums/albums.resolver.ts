@@ -21,24 +21,24 @@ export class AlbumsResolver {
   ) {}
 
   @Query(() => [AlbumModel], { name: 'albums' })
-  public async getAlbums() {
+  public getAlbums() {
     return this.albumsService.findAll();
   }
 
   @Query(() => AlbumModel, { name: 'album' })
-  public async getAlbumById(@Args('albumId', { type: () => ID }) id: number) {
+  public getAlbumById(@Args('albumId', { type: () => ID }) id: number) {
     return this.albumsService.findById(id);
   }
 
   @Query(() => [AlbumModel], { name: 'userAlbums' })
-  public async getAlbumsByUserId(
+  public getAlbumsByUserId(
     @Args('userId', { type: () => ID }) userId: number,
   ) {
     return this.albumsService.findByUserId(userId);
   }
 
   @ResolveField(() => [PhotoModel], { name: 'photos' })
-  public async getAlbumPhotos(@Parent() album: AlbumModel) {
+  public getAlbumPhotos(@Parent() album: AlbumModel) {
     return this.photosServices.findByAlbumId(album.id);
   }
 }

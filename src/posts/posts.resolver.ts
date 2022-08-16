@@ -32,55 +32,51 @@ export class PostsResolver {
   ) {}
 
   @Query(() => [PostModel], { name: 'posts' })
-  public async getPosts() {
+  public getPosts() {
     return this.postsService.findAll();
   }
 
   @Query(() => PostModel, { name: 'post' })
-  public async getPostById(@Args('id', { type: () => ID }) id: number) {
+  public getPostById(@Args('id', { type: () => ID }) id: number) {
     return this.postsService.findById(id);
   }
 
   @Query(() => [PostModel], { name: 'userPosts' })
-  public async getPostByUserId(
+  public getPostByUserId(
     @Args('userId', { type: () => ID }) userId: number,
   ) {
     return this.postsService.findByUserId(userId);
   }
 
   @ResolveField(() => UserModel, { name: 'user' })
-  public async getUserByPost(@Parent() post: PostModel) {
+  public getUserByPost(@Parent() post: PostModel) {
     return this.usersService.findById(post.userId);
   }
 
   @ResolveField(() => [CommentModel], { name: 'comments' })
-  public async getPostComments(@Parent() post: PostModel) {
+  public getPostComments(@Parent() post: PostModel) {
     return this.commentsService.findByPostId(post.id);
   }
 
   @Mutation(() => PostModel, { name: 'createPost' })
-  public async createPost(
+  public createPost(
     @Args('createPostData') createPostData: CreatePostInput,
   ) {
     return this.postsService.create(createPostData);
   }
 
   @Mutation(() => PostModel, { name: 'updatePost' })
-  public async updatePost(
-    @Args('updatePostData') updatePostData: UpdatePostInput,
-  ) {
+  public updatePost(@Args('updatePostData') updatePostData: UpdatePostInput) {
     return this.postsService.update(updatePostData);
   }
 
   @Mutation(() => String, { name: 'deletePost' })
-  public async deletePost(
-    @Args('deletePostData') deletePostData: DeletePostInput,
-  ) {
+  public deletePost(@Args('deletePostData') deletePostData: DeletePostInput) {
     return this.postsService.delete(deletePostData);
   }
 
   @Mutation(() => PostModel, { name: 'patchPost' })
-  public async patchPost(@Args('patchPostData') patchPostData: PatchPostInput) {
+  public patchPost(@Args('patchPostData') patchPostData: PatchPostInput) {
     return this.postsService.patch(patchPostData);
   }
 }
