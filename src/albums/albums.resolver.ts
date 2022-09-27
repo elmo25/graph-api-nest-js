@@ -31,9 +31,7 @@ export class AlbumsResolver {
   }
 
   @Query(() => [AlbumModel], { name: 'userAlbums' })
-  public getAlbumsByUserId(
-    @Args('userId', { type: () => ID }) userId: number,
-  ) {
+  public getAlbumsByUserId(@Args('userId', { type: () => ID }) userId: number) {
     return this.albumsService.findByUserId(userId);
   }
 

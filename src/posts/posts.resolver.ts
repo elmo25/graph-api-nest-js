@@ -42,9 +42,7 @@ export class PostsResolver {
   }
 
   @Query(() => [PostModel], { name: 'userPosts' })
-  public getPostByUserId(
-    @Args('userId', { type: () => ID }) userId: number,
-  ) {
+  public getPostByUserId(@Args('userId', { type: () => ID }) userId: number) {
     return this.postsService.findByUserId(userId);
   }
 
@@ -59,9 +57,7 @@ export class PostsResolver {
   }
 
   @Mutation(() => PostModel, { name: 'createPost' })
-  public createPost(
-    @Args('createPostData') createPostData: CreatePostInput,
-  ) {
+  public createPost(@Args('createPostData') createPostData: CreatePostInput) {
     return this.postsService.create(createPostData);
   }
 
