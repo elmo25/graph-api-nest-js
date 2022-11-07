@@ -8,7 +8,7 @@ import { map, Observable } from 'rxjs';
 export class FetcherService {
   constructor(private readonly httpService: HttpService) {}
 
-  private request<R>(config: AxiosRequestConfig) {
+  private request<R>(config: AxiosRequestConfig): Observable<R> {
     return this.httpService.request<R>(config).pipe(map((res) => res.data));
   }
 
