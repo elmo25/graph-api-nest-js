@@ -12,12 +12,15 @@ import { AlbumsService } from 'src/albums/albums.service';
 
 import { PhotoModel } from 'src/photos/photo-model';
 import { PhotosService } from 'src/photos/photos.service';
+import { UserModel } from 'src/users/user.model';
+import { UsersService } from 'src/users/users.service';
 
 @Resolver(() => AlbumModel)
 export class AlbumsResolver {
   constructor(
     private readonly albumsService: AlbumsService,
     private readonly photosServices: PhotosService,
+    private readonly usersService: UsersService,
   ) {}
 
   @Query(() => [AlbumModel], { name: 'albums' })
@@ -38,5 +41,10 @@ export class AlbumsResolver {
   @ResolveField(() => [PhotoModel], { name: 'photos' })
   public getAlbumPhotos(@Parent() album: AlbumModel) {
     return this.photosServices.findByAlbumId(album.id);
+  }
+
+  @ResolveField(() => UserModel, { name: 'user' })
+  public geAlbumPhotos(@Parent() album: AlbumModel) {
+    return this.usersService.findById(album.userId);
   }
 }
