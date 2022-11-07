@@ -1,5 +1,6 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
+import { AxiosRequestConfig } from 'axios';
 
 import { map, Observable } from 'rxjs';
 
@@ -7,23 +8,27 @@ import { map, Observable } from 'rxjs';
 export class FetcherService {
   constructor(private readonly httpService: HttpService) {}
 
+  private request<R>(config: AxiosRequestConfig) {
+    return this.httpService.request<R>(config).pipe(map((res) => res.data));
+  }
+
   public get<T>(url: string): Observable<T> {
-    return this.httpService.get<T>(url).pipe(map((res) => res.data));
+    return this.request<T>({ url, method: 'GET' });
   }
 
   public post<T, U>(url: string, data: U): Observable<T> {
-    return this.httpService.post<T>(url, data).pipe(map((res) => res.data));
+    return this.request<T>({ url, method: 'POST', data });
   }
 
   public put<T, U>(url: string, data: U): Observable<T> {
-    return this.httpService.put<T>(url, data).pipe(map((res) => res.data));
+    return this.request<T>({ url, method: 'PUT', data });
   }
 
   public patch<T, U>(url: string, data: U): Observable<T> {
-    return this.httpService.patch<T>(url, data).pipe(map((res) => res.data));
+    return this.request<T>({ url, method: 'PATCH', data });
   }
 
   public delete<T = Record<string, unknown>>(url: string): Observable<T> {
-    return this.httpService.delete<T>(url).pipe(map((res) => res.data));
+    return this.request<T>({ url, method: 'DELETE' });
   }
 }
