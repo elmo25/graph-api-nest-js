@@ -6,33 +6,33 @@ import { PostModel } from 'src/posts/post-model';
 
 @ObjectType()
 class UserAddressGeo {
-  @Field()
+  @Field(() => String)
   lat: string;
-  @Field()
+  @Field(() => String)
   lng: string;
 }
 
 @ObjectType()
 class UserAddress {
-  @Field()
+  @Field(() => String)
   street: string;
-  @Field()
+  @Field(() => String)
   suite: string;
-  @Field()
+  @Field(() => String)
   city: string;
-  @Field()
+  @Field(() => String)
   zipcode: string;
-  @Field()
+  @Field(() => UserAddressGeo)
   geo: UserAddressGeo;
 }
 
 @ObjectType()
 class UserCompany {
-  @Field()
+  @Field(() => String)
   name: string;
-  @Field()
+  @Field(() => String)
   catchPhrase: string;
-  @Field()
+  @Field(() => String)
   bs: string;
 }
 
@@ -40,17 +40,17 @@ class UserCompany {
 export class UserModel {
   @Field(() => ID)
   id: number;
-  @Field()
+  @Field(() => String)
   name: string;
-  @Field()
+  @Field(() => String)
   username: string;
-  @Field()
+  @Field(() => String)
   email: string;
   @Field(() => UserAddress)
   address: UserAddress;
-  @Field()
+  @Field(() => String)
   phone: string;
-  @Field()
+  @Field(() => String)
   website: string;
   @Field(() => UserCompany)
   company: UserCompany;
