@@ -8,7 +8,9 @@ import { map, Observable } from 'rxjs';
 export class FetcherService {
   constructor(private readonly httpService: HttpService) {}
 
-  private request<R>(config: AxiosRequestConfig): Observable<R> {
+  private request<R, S = unknown>(
+    config: AxiosRequestConfig<S>,
+  ): Observable<R> {
     return this.httpService.request<R>(config).pipe(map((res) => res.data));
   }
 
@@ -17,15 +19,15 @@ export class FetcherService {
   }
 
   public post<T, U>(url: string, data: U): Observable<T> {
-    return this.request<T>({ url, method: 'POST', data });
+    return this.request<T, U>({ url, method: 'POST', data });
   }
 
   public put<T, U>(url: string, data: U): Observable<T> {
-    return this.request<T>({ url, method: 'PUT', data });
+    return this.request<T, U>({ url, method: 'PUT', data });
   }
 
   public patch<T, U>(url: string, data: U): Observable<T> {
-    return this.request<T>({ url, method: 'PATCH', data });
+    return this.request<T, U>({ url, method: 'PATCH', data });
   }
 
   public delete<T = Record<string, unknown>>(url: string): Observable<T> {
