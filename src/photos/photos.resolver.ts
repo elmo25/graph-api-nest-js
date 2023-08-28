@@ -8,17 +8,17 @@ export class PhotosResolver {
   constructor(private readonly photosService: PhotosService) {}
 
   @Query(() => [PhotoModel], { name: 'photos' })
-  public getPhotos() {
+  public async getPhotos() {
     return this.photosService.findAll();
   }
 
   @Query(() => PhotoModel, { name: 'photo' })
-  public getPhotoById(@Args('id', { type: () => ID }) id: number) {
+  public async getPhotoById(@Args('id', { type: () => ID }) id: number) {
     return this.photosService.findById(id);
   }
 
   @Query(() => [PhotoModel], { name: 'albumPhotos' })
-  public getPhotosByAlbumID(
+  public async getPhotosByAlbumID(
     @Args('albumId', { type: () => ID }) albumId: number,
   ) {
     return this.photosService.findByAlbumId(albumId);

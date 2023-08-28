@@ -1,36 +1,38 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
+
 import { AxiosRequestConfig } from 'axios';
 
-import { map, Observable } from 'rxjs';
+import { HTTP_METHODS } from 'src/fetcher/constants';
 
 @Injectable()
 export class FetcherService {
   constructor(private readonly httpService: HttpService) {}
 
-  private request<R, S = unknown>(
+  public async get<T>(url: string) {
+    return this.request<T>({ url, method: HTTP_METHODS.GET });
+  }
+
+  public async post<T, U>(url: string, data: U) {
+    return this.request<T, U>({ url, method: HTTP_METHODS.POST, data });
+  }
+
+  public async put<T, U>(url: string, data: U) {
+    return this.request<T, U>({ url, method: HTTP_METHODS.PUT, data });
+  }
+
+  public async patch<T, U>(url: string, data: U) {
+    return this.request<T, U>({ url, method: HTTP_METHODS.PATCH, data });
+  }
+
+  public async delete<T = Record<string, unknown>>(url: string) {
+    return this.request<T>({ url, method: HTTP_METHODS.DELETE });
+  }
+
+  private async request<R, S = unknown>(
     config: AxiosRequestConfig<S>,
-  ): Observable<R> {
-    return this.httpService.request<R>(config).pipe(map((res) => res.data));
-  }
-
-  public get<T>(url: string): Observable<T> {
-    return this.request<T>({ url, method: 'GET' });
-  }
-
-  public post<T, U>(url: string, data: U): Observable<T> {
-    return this.request<T, U>({ url, method: 'POST', data });
-  }
-
-  public put<T, U>(url: string, data: U): Observable<T> {
-    return this.request<T, U>({ url, method: 'PUT', data });
-  }
-
-  public patch<T, U>(url: string, data: U): Observable<T> {
-    return this.request<T, U>({ url, method: 'PATCH', data });
-  }
-
-  public delete<T = Record<string, unknown>>(url: string): Observable<T> {
-    return this.request<T>({ url, method: 'DELETE' });
+  ): Promise<R> {
+    const result = await this.httpService.axiosRef.request<R>(config);
+    return result.data;
   }
 }

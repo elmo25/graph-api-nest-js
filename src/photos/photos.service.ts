@@ -12,17 +12,17 @@ export class PhotosService {
     private readonly fetcherService: FetcherService,
   ) {}
 
-  public findAll() {
+  public async findAll() {
     return this.fetcherService.get<PhotoModel[]>(this.configService.photos);
   }
 
-  public findById(id: number) {
+  public async findById(id: number) {
     return this.fetcherService.get<PhotoModel>(
       this.configService.getPhotoById(id),
     );
   }
 
-  public findByAlbumId(albumId: number) {
+  public async findByAlbumId(albumId: number) {
     return this.fetcherService.get<PhotoModel[]>(
       this.configService.getPhotosByAlbumId(albumId),
     );

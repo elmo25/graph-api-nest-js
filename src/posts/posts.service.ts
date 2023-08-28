@@ -1,7 +1,5 @@
 import { Injectable } from '@nestjs/common';
 
-import { map } from 'rxjs';
-
 import { ConfigService } from 'src/config/config.service';
 import { FetcherService } from 'src/fetcher/fetcher.service';
 import { PostModel } from 'src/posts/post-model';
@@ -19,43 +17,43 @@ export class PostsService {
     private readonly configService: ConfigService,
   ) {}
 
-  public findAll() {
+  public async findAll() {
     return this.fetcherService.get<PostModel[]>(this.configService.posts);
   }
 
-  public findById(id: number) {
+  public async findById(id: number) {
     return this.fetcherService.get<PostModel>(
       this.configService.getPostById(id),
     );
   }
 
-  public findByUserId(userId: number) {
+  public async findByUserId(userId: number) {
     return this.fetcherService.get<PostModel[]>(
       this.configService.getPostsByUserId(userId),
     );
   }
 
-  public create(postData: CreatePostInput) {
+  public async create(postData: CreatePostInput) {
     return this.fetcherService.post<PostModel, CreatePostInput>(
       this.configService.posts,
       postData,
     );
   }
 
-  public update(postData: UpdatePostInput) {
+  public async update(postData: UpdatePostInput) {
     return this.fetcherService.put<PostModel, UpdatePostInput>(
       this.configService.getPostById(postData.id),
       postData,
     );
   }
 
-  public delete(postData: DeletePostInput) {
-    return this.fetcherService
-      .delete(this.configService.getPostById(postData.id))
-      .pipe(map(() => `Post with id: ${postData.id} was deleted`));
+  public async delete(postData: DeletePostInput) {
+    return this.fetcherService.delete(
+      this.configService.getPostById(postData.id),
+    );
   }
 
-  public patch(patchPostData: PatchPostInput) {
+  public async patch(patchPostData: PatchPostInput) {
     return this.fetcherService.patch<PostModel, PatchPostInput>(
       this.configService.getPostById(patchPostData.id),
       patchPostData,

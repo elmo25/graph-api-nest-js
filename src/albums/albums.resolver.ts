@@ -24,27 +24,29 @@ export class AlbumsResolver {
   ) {}
 
   @Query(() => [AlbumModel], { name: 'albums' })
-  public getAlbums() {
+  public async getAlbums() {
     return this.albumsService.findAll();
   }
 
   @Query(() => AlbumModel, { name: 'album' })
-  public getAlbumById(@Args('albumId', { type: () => ID }) id: number) {
+  public async getAlbumById(@Args('albumId', { type: () => ID }) id: number) {
     return this.albumsService.findById(id);
   }
 
   @Query(() => [AlbumModel], { name: 'userAlbums' })
-  public getAlbumsByUserId(@Args('userId', { type: () => ID }) userId: number) {
+  public async getAlbumsByUserId(
+    @Args('userId', { type: () => ID }) userId: number,
+  ) {
     return this.albumsService.findByUserId(userId);
   }
 
   @ResolveField(() => [PhotoModel], { name: 'photos' })
-  public getAlbumPhotos(@Parent() album: AlbumModel) {
+  public async getAlbumPhotos(@Parent() album: AlbumModel) {
     return this.photosServices.findByAlbumId(album.id);
   }
 
   @ResolveField(() => UserModel, { name: 'user' })
-  public geAlbumPhotos(@Parent() album: AlbumModel) {
+  public async geAlbumPhotos(@Parent() album: AlbumModel) {
     return this.usersService.findById(album.userId);
   }
 }

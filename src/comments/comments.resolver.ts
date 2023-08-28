@@ -9,12 +9,12 @@ export class CommentsResolver {
   constructor(private readonly commentService: CommentsService) {}
 
   @Query(() => [CommentModel], { name: 'comments' })
-  public getComments() {
+  public async getComments() {
     return this.commentService.findAll();
   }
 
   @Query(() => CommentModel, { name: 'comment' })
-  public getCommentById(@Args('id', { type: () => ID }) id: number) {
+  public async getCommentById(@Args('id', { type: () => ID }) id: number) {
     return this.commentService.findById(id);
   }
 }

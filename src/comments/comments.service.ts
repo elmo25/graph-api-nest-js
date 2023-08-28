@@ -11,17 +11,17 @@ export class CommentsService {
     private readonly fetcherService: FetcherService,
   ) {}
 
-  public findAll() {
+  public async findAll() {
     return this.fetcherService.get<CommentModel[]>(this.configService.comments);
   }
 
-  public findById(id: number) {
+  public async findById(id: number) {
     return this.fetcherService.get<CommentModel>(
       this.configService.getCommentById(id),
     );
   }
 
-  public findByPostId(postId: number) {
+  public async findByPostId(postId: number) {
     return this.fetcherService.get<CommentModel[]>(
       this.configService.getCommentsByPostId(postId),
     );

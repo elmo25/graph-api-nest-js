@@ -32,37 +32,43 @@ export class PostsResolver {
   ) {}
 
   @Query(() => [PostModel], { name: 'posts' })
-  public getPosts() {
+  public async getPosts() {
     return this.postsService.findAll();
   }
 
   @Query(() => PostModel, { name: 'post' })
-  public getPostById(@Args('id', { type: () => ID }) id: number) {
+  public async getPostById(@Args('id', { type: () => ID }) id: number) {
     return this.postsService.findById(id);
   }
 
   @Query(() => [PostModel], { name: 'userPosts' })
-  public getPostByUserId(@Args('userId', { type: () => ID }) userId: number) {
+  public async getPostByUserId(
+    @Args('userId', { type: () => ID }) userId: number,
+  ) {
     return this.postsService.findByUserId(userId);
   }
 
   @ResolveField(() => UserModel, { name: 'user' })
-  public getUserByPost(@Parent() post: PostModel) {
+  public async getUserByPost(@Parent() post: PostModel) {
     return this.usersService.findById(post.userId);
   }
 
   @ResolveField(() => [CommentModel], { name: 'comments' })
-  public getPostComments(@Parent() post: PostModel) {
+  public async getPostComments(@Parent() post: PostModel) {
     return this.commentsService.findByPostId(post.id);
   }
 
   @Mutation(() => PostModel, { name: 'createPost' })
-  public createPost(@Args('createPostData') createPostData: CreatePostInput) {
+  public async createPost(
+    @Args('createPostData') createPostData: CreatePostInput,
+  ) {
     return this.postsService.create(createPostData);
   }
 
   @Mutation(() => PostModel, { name: 'updatePost' })
-  public updatePost(@Args('updatePostData') updatePostData: UpdatePostInput) {
+  public async updatePost(
+    @Args('updatePostData') updatePostData: UpdatePostInput,
+  ) {
     return this.postsService.update(updatePostData);
   }
 

@@ -11,17 +11,17 @@ export class AlbumsService {
     private readonly fetcherService: FetcherService,
   ) {}
 
-  public findAll() {
+  public async findAll() {
     return this.fetcherService.get<AlbumModel[]>(this.configService.albums);
   }
 
-  public findById(id: number) {
+  public async findById(id: number) {
     return this.fetcherService.get<AlbumModel>(
       this.configService.getAlbumsById(id),
     );
   }
 
-  public findByUserId(userId: number) {
+  public async findByUserId(userId: number) {
     return this.fetcherService.get<AlbumModel[]>(
       this.configService.getAlbumsByUserId(userId),
     );
